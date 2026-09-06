@@ -1,0 +1,13 @@
+{
+  "redirectDelay": 2000,
+  "rotationStrategy": "round-robin",
+  "fallbackUrl": "https://wa.me/5511999999999?text=Ol%C3%A1%2C%20gostaria%20de%20atendimento!",
+  "title": "Por favor, aguarde alguns segundos.",
+  "subtitle": "Estamos direcionando você para o WhatsApp.",
+  "buttonText": "Clique aqui se não for redirecionado",
+  "metaPixelId": "",
+  "googleAnalyticsId": "",
+  "customHeadScripts": "",
+  "adminPin": "jr",
+  "requireAuth": true
+}
