@@ -1,0 +1,30 @@
+[
+  {
+    "id": "link_1",
+    "name": "Link 1 - Utmify / Tracker",
+    "phone": "",
+    "message": "",
+    "url": "https://meutracker.com/r/link-utmify?campaign_internal=promo_2026",
+    "active": true,
+    "dailyLimit": 0,
+    "weight": 1,
+    "totalClicks": 0,
+    "todayClicks": 0,
+    "lastResetDate": "2026-09-06",
+    "createdAt": "2026-09-06T18:20:00.000Z"
+  },
+  {
+    "id": "link_2",
+    "name": "Link 2 - WhatsApp Atendente",
+    "phone": "5511988882222",
+    "message": "Olá! Vim pelo anúncio.",
+    "url": "https://wa.me/5511988882222?text=Ol%C3%A1%21%20Vim%20pelo%20an%C3%BAncio.",
+    "active": false,
+    "dailyLimit": 0,
+    "weight": 1,
+    "totalClicks": 0,
+    "todayClicks": 0,
+    "lastResetDate": "2026-09-06",
+    "createdAt": "2026-09-06T18:20:00.000Z"
+  }
+]
