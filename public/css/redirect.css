@@ -1,0 +1,205 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --wa-primary: #008069;
+  --wa-primary-dark: #005c4b;
+  --wa-accent: #25d366;
+  --wa-teal: #00a884;
+  --bg-color: #efeae2;
+  --text-primary: #005c4b;
+  --text-secondary: #54656f;
+  --card-bg: #ffffff;
+  --card-shadow: 0 12px 36px rgba(11, 20, 26, 0.08), 0 2px 6px rgba(11, 20, 26, 0.04);
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-color);
+  overflow-x: hidden;
+}
+
+/* Container Principal com padrão topográfico similar ao WhatsApp */
+.redirect-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: #f1ede6;
+  background-image: radial-gradient(#dfd7cc 1px, transparent 1px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath d='M10 10 Q 50 30 90 10 Q 50 70 10 90' fill='none' stroke='%23e4ded3' stroke-width='1.2' opacity='0.7'/%3E%3Cpath d='M20 30 Q 60 50 80 30 Q 40 80 20 70' fill='none' stroke='%23e4ded3' stroke-width='1' opacity='0.5'/%3E%3Cpath d='M0 50 Q 50 10 100 50 Q 50 90 0 50' fill='none' stroke='%23e4ded3' stroke-width='1' opacity='0.4'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  position: relative;
+}
+
+/* Card centralizado com cantos arredondados */
+.redirect-card {
+  background: var(--card-bg);
+  border-radius: 24px;
+  padding: 44px 32px 36px;
+  width: 100%;
+  max-width: 410px;
+  box-shadow: var(--card-shadow);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: cardFadeIn 0.5s ease-out;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Spinner WhatsApp com 8 pontos circulares giratórios */
+.spinner-wrapper {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+}
+
+.wa-spinner {
+  position: relative;
+  width: 44px;
+  height: 44px;
+}
+
+.spinner-dot {
+  position: absolute;
+  width: 7.5px;
+  height: 7.5px;
+  background-color: var(--wa-primary);
+  border-radius: 50%;
+  animation: waDotPulse 1.1s infinite ease-in-out;
+}
+
+/* Distribuição circular exata dos 8 pontos */
+.dot-1 { top: 0; left: 18px; animation-delay: 0s; }
+.dot-2 { top: 5px; right: 5px; animation-delay: 0.137s; }
+.dot-3 { top: 18px; right: 0; animation-delay: 0.275s; }
+.dot-4 { bottom: 5px; right: 5px; animation-delay: 0.412s; }
+.dot-5 { bottom: 0; left: 18px; animation-delay: 0.55s; }
+.dot-6 { bottom: 5px; left: 5px; animation-delay: 0.687s; }
+.dot-7 { top: 18px; left: 0; animation-delay: 0.825s; }
+.dot-8 { top: 5px; left: 5px; animation-delay: 0.962s; }
+
+@keyframes waDotPulse {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(0.7);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+    background-color: var(--wa-teal);
+  }
+}
+
+/* Título */
+.redirect-title {
+  color: #006050;
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.35;
+  margin-bottom: 14px;
+  letter-spacing: -0.2px;
+}
+
+/* Subtítulo */
+.redirect-subtitle {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  font-weight: 400;
+  line-height: 1.45;
+  margin-bottom: 24px;
+  max-width: 280px;
+}
+
+/* Barra de progresso suave */
+.progress-bar-container {
+  width: 100%;
+  height: 4px;
+  background-color: #e9edef;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--wa-teal), var(--wa-accent));
+  border-radius: 10px;
+  transition: width 0.1s linear;
+}
+
+/* Ação de fallback */
+.action-fallback {
+  width: 100%;
+  margin-top: 14px;
+  animation: fadeIn 0.4s ease;
+}
+
+.wa-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  background-color: #25d366;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 13px 20px;
+  border-radius: 30px;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
+  transition: all 0.2s ease;
+}
+
+.wa-btn:hover {
+  background-color: #20bd5a;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(37, 211, 102, 0.45);
+}
+
+.wa-btn:active {
+  transform: translateY(0);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsividade Mobile */
+@media (max-width: 480px) {
+  .redirect-card {
+    padding: 38px 24px 30px;
+    border-radius: 20px;
+  }
+  .redirect-title {
+    font-size: 1.25rem;
+  }
+  .redirect-subtitle {
+    font-size: 0.98rem;
+  }
+}
