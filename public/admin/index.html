@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel de Tráfego WhatsApp | Rotator & Gestor</title>
+  
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22%200%20100%20100%22><text y=%22.9em%22 font-size=%2290%22>⚙️</text></svg>">
+  
+  <!-- Fontes do Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/admin/css/admin.css">
+  
+  <!-- QRCode.js para geração de QR Codes no painel -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+
+  <!-- Modal de Login/PIN se configurado -->
+  <div id="authModal" class="modal-overlay" style="display: none;">
+    <div class="modal-card auth-card">
+      <div class="modal-icon-header">
+        <span class="shield-icon">🔒</span>
+      </div>
+      <h2>Acesso Administrativo</h2>
+      <p>Digite seu PIN de acesso para gerenciar o tráfego:</p>
+      <form id="authForm">
+        <input type="password" id="authPinInput" placeholder="Digite seu PIN..." required autocomplete="current-password">
+        <button type="submit" class="btn btn-primary btn-block">Acessar Painel</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="admin-wrapper">
+    <!-- Barra Lateral (Sidebar) -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="#25d366">
+            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.587-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.288.043.088.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.174.086.275.072.376-.044.101-.116.433-.506.549-.68.116-.173.231-.144.39-.086s1.011.477 1.184.564.289.13.332.202c.044.073.044.419-.1 1.016z"/>
+          </svg>
+        </div>
+        <div>
+          <h3>Rotator Pro</h3>
+          <span class="status-badge"><span class="pulse-dot"></span> Online</span>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <a href="#dashboard" class="nav-item active" data-tab="dashboard">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+          Visão Geral
+        </a>
+        <a href="#links" class="nav-item" data-tab="links">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          Gerenciar Links
+        </a>
+        <a href="#strategy" class="nav-item" data-tab="strategy">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m10 15 5-3-5-3v6Z"/></svg>
+          Estratégia & Rotação
+        </a>
+        <a href="#analytics" class="nav-item" data-tab="analytics">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          UTMs & Histórico
+        </a>
+        <a href="#settings" class="nav-item" data-tab="settings">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Configurações & Pixels
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a href="/" target="_blank" class="btn btn-outline btn-sm btn-block">
+          👁️ Ver Tela de Redirect
+        </a>
+      </div>
+    </aside>
+
+    <!-- Conteúdo Principal -->
+    <main class="main-content">
+      
+      <!-- Topbar Header -->
+      <header class="topbar">
+        <div class="topbar-title">
+          <h1 id="pageTitle">Visão Geral do Tráfego</h1>
+          <p id="pageSubtitle">Acompanhe a distribuição e o desempenho dos seus atendentes</p>
+        </div>
+        <div class="topbar-actions">
+          <button id="copyPublicLinkBtn" class="btn btn-secondary">
+            📋 Copiar Link de Tráfego
+          </button>
+          <a href="/" target="_blank" class="btn btn-primary">
+            ⚡ Testar Rotação
+          </a>
+        </div>
+      </header>
+
+      <!-- ABA 1: DASHBOARD / VISÃO GERAL -->
+      <section id="tab-dashboard" class="tab-content active">
+        <!-- Cards de Estatísticas -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon bg-green-light">📊</div>
+            <div class="stat-info">
+              <span class="stat-label">Total de Cliques</span>
+              <h2 class="stat-value" id="statTotalClicks">0</h2>
+              <span class="stat-sub">Cliques acumulados</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon bg-teal-light">⚡</div>
+            <div class="stat-info">
+              <span class="stat-label">Cliques Hoje</span>
+              <h2 class="stat-value" id="statTodayClicks">0</h2>
+              <span class="stat-sub">Acessos no dia atual</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon bg-blue-light">👥</div>
+            <div class="stat-info">
+              <span class="stat-label">Atendentes Ativos</span>
+              <h2 class="stat-value" id="statActiveLinks">0</h2>
+              <span class="stat-sub" id="statInactiveCount">0 desativados</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon bg-purple-light">🎯</div>
+            <div class="stat-info">
+              <span class="stat-label">Principal Origem UTM</span>
+              <h2 class="stat-value font-md" id="statTopSource">Direto</h2>
+              <span class="stat-sub" id="statTopCampaign">-</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Distribuição de Tráfego por Atendente -->
+        <div class="card card-section">
+          <div class="card-header flex-between">
+            <div>
+              <h3>Distribuição de Tráfego em Tempo Real</h3>
+              <p class="text-muted">Desempenho e proporção de leads enviados para cada número</p>
+            </div>
+            <button class="btn btn-sm btn-outline" id="refreshStatsBtn">🔄 Atualizar</button>
+          </div>
+          <div id="trafficDistributionList" class="distribution-bars">
+            <!-- Renderizado dinamicamente via JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ABA 2: GERENCIAR LINKS (WHATSAPP ROTATOR) -->
+      <section id="tab-links" class="tab-content">
+        <div class="card card-section">
+          <div class="card-header flex-between">
+            <div>
+              <h3>Números e Links Cadastrados</h3>
+              <p class="text-muted">Ative ou desative atendentes com 1 clique para redirecionar o tráfego instantaneamente</p>
+            </div>
+            <button class="btn btn-primary" id="openAddLinkModalBtn">
+              + Adicionar Novo WhatsApp
+            </button>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Status</th>
+                  <th>Atendente / Canal</th>
+                  <th>Link de Rastreamento / Destino</th>
+                  <th>Cliques (Hoje / Total)</th>
+                  <th>Limite Diário</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="linksTableBody">
+                <!-- Renderizado via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABA 3: ESTRATÉGIA DE ROTAÇÃO -->
+      <section id="tab-strategy" class="tab-content">
+        <div class="card card-section">
+          <div class="card-header">
+            <h3>Regra de Distribuição de Tráfego</h3>
+            <p class="text-muted">Escolha como o sistema deve revezar as pessoas que clicam no seu link</p>
+          </div>
+
+          <div class="strategy-cards-grid">
+            <label class="strategy-card">
+              <input type="radio" name="rotationStrategy" value="round-robin" checked>
+              <div class="strategy-card-inner">
+                <div class="strategy-badge">Recomendado</div>
+                <div class="strategy-icon">🔄</div>
+                <h4>Round-Robin (Revezamento Circular)</h4>
+                <p>Distribui os leads em ordem sequencial (Atendente 1 -> 2 -> 3 -> 1). Garante divisão 100% justa e igualitária.</p>
+              </div>
+            </label>
+
+            <label class="strategy-card">
+              <input type="radio" name="rotationStrategy" value="random">
+              <div class="strategy-card-inner">
+                <div class="strategy-icon">🎲</div>
+                <h4>Aleatório Balanceado (Weighted)</h4>
+                <p>Sorteia aleatoriamente entre os atendentes ativos, respeitando o peso configurado em cada um.</p>
+              </div>
+            </label>
+
+            <label class="strategy-card">
+              <input type="radio" name="rotationStrategy" value="priority">
+              <div class="strategy-card-inner">
+                <div class="strategy-icon">🥇</div>
+                <h4>Prioritário / Transbordo (Failover)</h4>
+                <p>Envia 100% do tráfego para o primeiro atendente até atingir seu limite diário, passando então para o próximo.</p>
+              </div>
+            </label>
+          </div>
+
+          <div class="form-group mt-4">
+            <label class="form-label">Link de Contingência / Backup (Caso todos os links estejam desativados)</label>
+            <input type="url" id="fallbackUrlInput" class="form-input" placeholder="https://wa.me/5511999999999">
+            <small class="form-help">Se todos os atendentes forem desativados ou baterem o limite, os visitantes serão enviados para este link.</small>
+          </div>
+
+          <button id="saveStrategyBtn" class="btn btn-primary mt-3">Salvar Estratégia</button>
+        </div>
+      </section>
+
+      <!-- ABA 4: UTMS & HISTÓRICO -->
+      <section id="tab-analytics" class="tab-content">
+        <div class="grid-2-cols">
+          <!-- Origens UTM -->
+          <div class="card card-section">
+            <div class="card-header">
+              <h3>Origens de Tráfego (utm_source)</h3>
+              <p class="text-muted">De onde vieram seus leads</p>
+            </div>
+            <div id="utmSourcesList" class="utm-list">
+              <!-- Renderizado via JS -->
+            </div>
+          </div>
+
+          <!-- Campanhas UTM -->
+          <div class="card card-section">
+            <div class="card-header">
+              <h3>Campanhas (utm_campaign)</h3>
+              <p class="text-muted">Desempenho por campanha de tráfego pago</p>
+            </div>
+            <div id="utmCampaignsList" class="utm-list">
+              <!-- Renderizado via JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabela de Logs Recentes -->
+        <div class="card card-section mt-4">
+          <div class="card-header flex-between">
+            <div>
+              <h3>Histórico de Redirecionamentos Recentes</h3>
+              <p class="text-muted">Últimos cliques registrados em tempo real</p>
+            </div>
+            <button class="btn btn-sm btn-danger" id="resetStatsBtn">⚠️ Zerar Métricas</button>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Data/Hora</th>
+                  <th>Atendente Destino</th>
+                  <th>Origem (UTM Source)</th>
+                  <th>Campanha (UTM Campaign)</th>
+                  <th>IP / Dispositivo</th>
+                </tr>
+              </thead>
+              <tbody id="logsTableBody">
+                <!-- Renderizado via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABA 5: CONFIGURAÇÕES & PIXELS -->
+      <section id="tab-settings" class="tab-content">
+        <div class="card card-section">
+          <div class="card-header">
+            <h3>Personalização da Tela de Redirecionamento</h3>
+            <p class="text-muted">Ajuste os textos e tempo da tela idêntica ao WhatsApp</p>
+          </div>
+          
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Título Principal</label>
+              <input type="text" id="settingsTitleInput" class="form-input" value="Por favor, aguarde alguns segundos.">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Subtítulo</label>
+              <input type="text" id="settingsSubtitleInput" class="form-input" value="Estamos direcionando você para o WhatsApp.">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Texto do Botão Manual</label>
+              <input type="text" id="settingsButtonTextInput" class="form-input" value="Clique aqui se não for redirecionado">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Tempo de Espera do Redirecionamento (Milissegundos)</label>
+              <div class="range-wrapper">
+                <input type="range" id="settingsDelayRange" min="500" max="5000" step="500" value="2000" class="form-range">
+                <span id="delayDisplay" class="range-badge">2.0 segundos</span>
+              </div>
+              <small class="form-help">Recomendado: 1.5s a 2s para carregar os pixels de rastreamento com segurança.</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="card card-section mt-4">
+          <div class="card-header">
+            <h3>Rastreamento e Pixels de Conversão</h3>
+            <p class="text-muted">Dispara eventos automáticos (PageView e Lead) antes do redirecionamento</p>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Meta Pixel ID (Facebook Ads)</label>
+              <input type="text" id="metaPixelInput" class="form-input" placeholder="Ex: 123456789012345">
+              <small class="form-help">Insira apenas o ID do Pixel do Facebook.</small>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Google Analytics 4 / Google Ads ID</label>
+              <input type="text" id="googleAnalyticsInput" class="form-input" placeholder="Ex: G-XXXXXXXXXX ou AW-XXXXXXXXXX">
+            </div>
+          </div>
+
+          <div class="form-group mt-3">
+            <label class="form-label">Scripts Adicionais no &lt;head&gt; (Opcional)</label>
+            <textarea id="customScriptsInput" class="form-textarea" rows="3" placeholder="<!-- Códigos extras de rastreamento, TikTok Pixel, etc -->"></textarea>
+          </div>
+        </div>
+
+        <div class="card card-section mt-4">
+          <div class="card-header">
+            <h3>Segurança & Backup</h3>
+            <p class="text-muted">Proteja o painel e faça backup de todas as configurações</p>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">PIN / Senha de Acesso ao Painel</label>
+              <input type="text" id="adminPinInput" class="form-input" value="admin123">
+            </div>
+
+            <div class="form-group flex-align-end">
+              <label class="toggle-control-label">
+                <input type="checkbox" id="requireAuthToggle">
+                <span class="toggle-slider"></span>
+                <span>Exigir senha para entrar no Painel</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="backup-actions mt-4">
+            <a href="/api/admin/export" class="btn btn-secondary">
+              📥 Baixar Backup (JSON)
+            </a>
+            <button class="btn btn-outline" id="importBackupBtn">
+              📤 Restaurar Backup
+            </button>
+            <input type="file" id="importFileInput" accept=".json" style="display: none;">
+          </div>
+        </div>
+
+        <div class="mt-4 flex-end">
+          <button id="saveAllSettingsBtn" class="btn btn-primary btn-lg">💾 Salvar Todas as Configurações</button>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- MODAL: Adicionar / Editar Link WhatsApp ou Link de Rastreamento -->
+  <div id="linkModal" class="modal-overlay" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modalLinkTitle">Adicionar Novo Destino / Link</h3>
+        <button class="modal-close-btn" id="closeLinkModalBtn">&times;</button>
+      </div>
+      <form id="linkForm">
+        <input type="hidden" id="linkIdInput">
+        
+        <div class="form-group">
+          <label class="form-label">Nome do Atendente, Campanha ou Canal *</label>
+          <input type="text" id="linkNameInput" class="form-input" placeholder="Ex: Atendente 1 (Utmify / Link 1)" required>
+        </div>
+
+        <!-- Seletor de Tipo de Link -->
+        <div class="form-group">
+          <label class="form-label">Como deseja inserir o destino?</label>
+          <div class="link-type-selector">
+            <label class="link-type-option">
+              <input type="radio" name="linkInputType" value="url" checked>
+              <span>🔗 Link Direto / Rastreamento (Utmify, Kiwify, etc.)</span>
+            </label>
+            <label class="link-type-option">
+              <input type="radio" name="linkInputType" value="phone">
+              <span>📱 Gerar por Número de WhatsApp</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Campo 1: URL Direta de Rastreamento -->
+        <div class="form-group" id="groupDirectUrl">
+          <label class="form-label">Link de Rastreamento / URL de Destino *</label>
+          <input type="url" id="linkUrlInput" class="form-input" placeholder="Ex: https://meutracker.com/r/link1 ou https://wa.me/5511999999999">
+          <small class="form-help">Cole aqui o link gerado pela sua plataforma de tracking (Utmify, ClickMagick, Voluum, etc.) ou link pronto do WhatsApp.</small>
+        </div>
+
+        <!-- Campo 2: Gerador por Telefone (visível quando selecionado) -->
+        <div id="groupPhoneGenerator" style="display: none;">
+          <div class="form-group">
+            <label class="form-label">Número de WhatsApp (DDD + Telefone) *</label>
+            <input type="text" id="linkPhoneInput" class="form-input" placeholder="Ex: (11) 98888-7777 ou 11988887777">
+            <small class="form-help">Aceita formatos com ou sem DDD/DDI.</small>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Mensagem Padrão Inicial (Opcional)</label>
+            <textarea id="linkMessageInput" class="form-textarea" rows="2" placeholder="Ex: Olá! Vim pelo anúncio e quero atendimento."></textarea>
+            <small class="form-help">O cliente já abre o WhatsApp com este texto digitado.</small>
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Limite Diário de Cliques (0 = Ilimitado)</label>
+            <input type="number" id="linkLimitInput" class="form-input" min="0" value="0">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Peso de Distribuição (1 a 10)</label>
+            <input type="number" id="linkWeightInput" class="form-input" min="1" max="10" value="1">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="toggle-control-label">
+            <input type="checkbox" id="linkActiveInput" checked>
+            <span class="toggle-slider"></span>
+            <span>Link Ativo no Redirecionador</span>
+          </label>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="cancelLinkModalBtn">Cancelar</button>
+          <button type="submit" class="btn btn-primary" id="saveLinkBtn">Salvar Link</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: QR Code & Teste de Link -->
+  <div id="qrModal" class="modal-overlay" style="display: none;">
+    <div class="modal-card text-center">
+      <div class="modal-header">
+        <h3 id="qrModalTitle">QR Code do WhatsApp</h3>
+        <button class="modal-close-btn" id="closeQrModalBtn">&times;</button>
+      </div>
+      <div id="qrcodeContainer" class="qrcode-wrapper"></div>
+      <p id="qrModalPhone" class="text-muted mt-2 font-mono"></p>
+      <div class="mt-3">
+        <a id="qrTestLink" href="#" target="_blank" class="btn btn-primary btn-block">Abrir no WhatsApp</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="/admin/js/admin.js"></script>
+</body>
+</html>
