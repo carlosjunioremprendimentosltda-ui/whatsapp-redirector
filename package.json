@@ -1,0 +1,24 @@
+{
+  "name": "whatsapp-traffic-redirector",
+  "version": "1.0.0",
+  "description": "Sistema de Redirecionamento e Rotação de Tráfego de WhatsApp com Painel Administrativo",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "whatsapp",
+    "rotator",
+    "redirector",
+    "traffic",
+    "marketing",
+    "leads"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  }
+}
