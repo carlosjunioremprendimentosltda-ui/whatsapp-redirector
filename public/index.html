@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Direcionando para o WhatsApp...</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22%200%20100%20100%22><text y=%22.9em%22 font-size=%2290%22>💬</text></svg>">
+  
+  <!-- Fontes do Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/css/redirect.css">
+</head>
+<body>
+  <!-- Container Principal com Textura de Fundo Topográfica -->
+  <div class="redirect-container" id="redirectContainer">
+    <div class="redirect-card" id="redirectCard">
+      
+      <!-- Spinner Circular com pontos em rotação no tom verde WhatsApp -->
+      <div class="spinner-wrapper">
+        <div class="wa-spinner" id="waSpinner">
+          <div class="spinner-dot dot-1"></div>
+          <div class="spinner-dot dot-2"></div>
+          <div class="spinner-dot dot-3"></div>
+          <div class="spinner-dot dot-4"></div>
+          <div class="spinner-dot dot-5"></div>
+          <div class="spinner-dot dot-6"></div>
+          <div class="spinner-dot dot-7"></div>
+          <div class="spinner-dot dot-8"></div>
+        </div>
+      </div>
+
+      <!-- Textos Principais -->
+      <h1 class="redirect-title" id="redirectTitle">Por favor, aguarde alguns segundos.</h1>
+      <p class="redirect-subtitle" id="redirectSubtitle">Estamos direcionando você para o WhatsApp.</p>
+
+      <!-- Barra de Progresso Suave -->
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="progressBar"></div>
+      </div>
+
+      <!-- Botão de Fallback Manual -->
+      <div class="action-fallback" id="actionFallback" style="display: none;">
+        <a href="#" class="wa-btn" id="manualRedirectBtn" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.587-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.288.043.088.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.174.086.275.072.376-.044.101-.116.433-.506.549-.68.116-.173.231-.144.39-.086s1.011.477 1.184.564.289.13.332.202c.044.073.044.419-.1 1.016z"/>
+          </svg>
+          <span id="btnText">Clique aqui se não for redirecionado</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="/js/redirect.js"></script>
+</body>
+</html>
